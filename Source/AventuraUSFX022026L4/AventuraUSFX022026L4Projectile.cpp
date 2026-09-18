@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+ï»¿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AventuraUSFX022026L4Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -26,18 +26,18 @@ AAventuraUSFX022026L4Projectile::AAventuraUSFX022026L4Projectile()
 
     ProjectileMesh->OnComponentHit.AddDynamic(this, &AAventuraUSFX022026L4Projectile::OnHit);
 
-    // ProjectileMovement: la pelota rebota indefinidamente sin gravedad ni fricción
+    // ProjectileMovement: rebote indefinido sin gravedad ni fricciÃ³n
     ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement0"));
     ProjectileMovement->UpdatedComponent = ProjectileMesh;
-    ProjectileMovement->InitialSpeed = 1200.f;
-    ProjectileMovement->MaxSpeed = 1200.f;
+    ProjectileMovement->InitialSpeed = 1400.f;
+    ProjectileMovement->MaxSpeed = 1400.f;
     ProjectileMovement->bRotationFollowsVelocity = true;
-    ProjectileMovement->bShouldBounce = true;             // Rebota
-    ProjectileMovement->Bounciness = 1.0f;                // Sin pérdida de energía
-    ProjectileMovement->Friction = 0.0f;                  // Sin fricción
-    ProjectileMovement->ProjectileGravityScale = 0.0f;    // Sin gravedad
+    ProjectileMovement->bShouldBounce = true;
+    ProjectileMovement->Bounciness = 1.0f;
+    ProjectileMovement->Friction = 0.0f;
+    ProjectileMovement->ProjectileGravityScale = 0.0f;
 
-    InitialLifeSpan = 0.0f;  // No se destruye por tiempo
+    InitialLifeSpan = 0.0f;
 }
 
 void AAventuraUSFX022026L4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor,

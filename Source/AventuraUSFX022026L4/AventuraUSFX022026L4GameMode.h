@@ -31,6 +31,5 @@ public:
     FTimerHandle TimerSpawnPlataforma;
 
 private:
-    // Referencia a la malla de cubo cargada en el constructor
     UStaticMesh* CubeMeshReference;
 };

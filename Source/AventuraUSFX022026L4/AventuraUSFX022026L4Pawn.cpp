@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+Ôªø// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AventuraUSFX022026L4Pawn.h"
 #include "AventuraUSFX022026L4Projectile.h"
@@ -18,7 +18,7 @@ const FName AAventuraUSFX022026L4Pawn::MoveRightBinding("MoveRight");
 
 AAventuraUSFX022026L4Pawn::AAventuraUSFX022026L4Pawn()
 {
-    // Malla de plataforma (plano) ó apariencia similar a una plataforma
+    // Malla de plataforma (plano)
     static ConstructorHelpers::FObjectFinder<UStaticMesh> PawnMesh(
         TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_Plane.Shape_Plane'"));
     ShipMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
@@ -35,29 +35,38 @@ AAventuraUSFX022026L4Pawn::AAventuraUSFX022026L4Pawn()
 
     ShipMeshComponent->OnComponentHit.AddDynamic(this, &AAventuraUSFX022026L4Pawn::OnHit);
 
-    // C·mara y brazo
+    // ==================== C√ÅMARA ====================
+    // Pitch = -85 (mirando casi vertical hacia abajo)
+    // Yaw = 90 (mirando hacia +Y, as√≠ el eje X aparece como izq/der en pantalla)
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true);
-    CameraBoom->TargetArmLength = 1500.f;
-    CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
+    CameraBoom->TargetArmLength = 2600.f;
+    CameraBoom->SetRelativeRotation(FRotator(-85.f, 90.f, 0.f));
     CameraBoom->bDoCollisionTest = false;
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
     CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
     CameraComponent->bUsePawnControlRotation = false;
+    CameraComponent->SetFieldOfView(90.f);
 
+    // ==================== MOVIMIENTO ====================
     MoveSpeed = 800.0f;
     GunOffset = FVector(0.f, 0.f, 100.f);
     FireRate = 0.3f;
     bCanFire = true;
+
+    // Pawn fijo en la parte baja del escenario
+    FixedYPosition = -700.0f;
+    MinXLimit = -1400.0f;
+    MaxXLimit = 1400.0f;
 }
 
 void AAventuraUSFX022026L4Pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     check(PlayerInputComponent);
 
-    // Solo movimiento horizontal (izquierda/derecha)
+    // Solo eje MoveRight (A / D)
     PlayerInputComponent->BindAxis(MoveRightBinding);
 
     // Disparo con Fire
@@ -70,13 +79,16 @@ void AAventuraUSFX022026L4Pawn::Tick(float DeltaSeconds)
 
     const float RightValue = GetInputAxisValue(MoveRightBinding);
 
-    // Movimiento SOLO en el eje Y (izquierda/derecha)
-    FVector Movement = FVector(0.0f, RightValue * MoveSpeed * DeltaSeconds, 0.0f);
+    // Movimiento SOLO en el eje X (izquierda/derecha en el mundo)
+    FVector CurrentPos = GetActorLocation();
+    float NewX = CurrentPos.X + (RightValue * MoveSpeed * DeltaSeconds);
 
-    if (Movement.SizeSquared() > 0.0f)
-    {
-        RootComponent->MoveComponent(Movement, GetActorRotation(), true);
-    }
+    // Aplicar l√≠mites
+    NewX = FMath::Clamp(NewX, MinXLimit, MaxXLimit);
+
+    // Forzar Y fija y aplicar nueva X
+    FVector NewPos = FVector(NewX, FixedYPosition, CurrentPos.Z);
+    SetActorLocation(NewPos);
 }
 
 void AAventuraUSFX022026L4Pawn::FireShot()
@@ -88,10 +100,9 @@ void AAventuraUSFX022026L4Pawn::FireShot()
 
     FVector SpawnLocation = GetActorLocation() + FVector(0.f, 0.f, 150.f);
 
-    // La pelota sale casi vertical hacia arriba con ligera inclinaciÛn aleatoria
-    // Pitch = -75 (arriba), Yaw aleatorio para variar la direcciÛn del rebote
-    float RandomYaw = FMath::FRandRange(-30.0f, 30.0f);
-    FRotator SpawnRotation = FRotator(-75.f, RandomYaw, 0.f);
+    // Direcci√≥n horizontal con yaw aleatorio
+    float RandomYaw = FMath::FRandRange(0.0f, 360.0f);
+    FRotator SpawnRotation = FRotator(0.f, RandomYaw, 0.f);
 
     World->SpawnActor<AAventuraUSFX022026L4Projectile>(
         AAventuraUSFX022026L4Projectile::StaticClass(), SpawnLocation, SpawnRotation);
@@ -117,7 +128,7 @@ void AAventuraUSFX022026L4Pawn::OnHit(UPrimitiveComponent* HitComp, AActor* Othe
 {
     if (!OtherActor || OtherActor == this) return;
 
-    // El Pawn destruye solo a las PlataformaIndestructible (efecto invertido)
+    // El Pawn destruye solo a las PlataformaIndestructible
     if (OtherActor->IsA(APlataformaIndestructible::StaticClass()))
     {
         OtherActor->Destroy();

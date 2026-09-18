@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -26,8 +26,6 @@ public:
     APlataforma();
 
     UStaticMeshComponent* mallaPlataforma;
-
-    // Color que se aplicará en BeginPlay para diferenciar las plataformas
     FLinearColor ColorPlataforma;
 
 protected:
@@ -43,8 +41,7 @@ public:
     FVector movimientoDireccion = FVector(0.0f, 0.0f, 0.0f);
     FVector posicionActual = FVector(0.0f, 0.0f, 0.0f);
 
-    // Variables para la caída de las plataformas
     bool bEnElSuelo = false;
     float VelocidadCaida = 200.0f;
-    float AlturaSuelo = 30.0f;
+    float AlturaSuelo = 50.0f;   // Ajustado: suelo estÃ¡ en Z=25, plataforma de 40 de alto â†’ centro en 50
 };

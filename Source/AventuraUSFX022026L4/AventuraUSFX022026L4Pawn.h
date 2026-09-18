@@ -48,11 +48,17 @@ private:
     FTimerHandle TimerHandle_ShotTimerExpired;
 
 protected:
-    // Evento Hit: destruye PlataformaIndestructible al chocar
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor,
         UPrimitiveComponent* OtherComp, FVector NormalImpulse,
         const FHitResult& Hit);
+
+    // Posición fija en Y (parte baja del escenario)
+    float FixedYPosition;
+
+    // Límites de movimiento en X
+    float MinXLimit;
+    float MaxXLimit;
 
 public:
     FORCEINLINE class UStaticMeshComponent* GetShipMeshComponent() const { return ShipMeshComponent; }

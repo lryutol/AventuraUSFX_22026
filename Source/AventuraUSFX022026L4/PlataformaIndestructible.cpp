@@ -15,7 +15,9 @@ APlataformaIndestructible::APlataformaIndestructible()
     {
         mallaPlataforma->SetStaticMesh(MeshAsset.Object);
     }
-    mallaPlataforma->SetRelativeScale3D(FVector(3.0f, 1.0f, 0.2f));
+
+    // Plataformas anchas y alargadas
+    mallaPlataforma->SetRelativeScale3D(FVector(9.0f, 2.5f, 0.4f));
 
     // Color VERDE
     ColorPlataforma = FLinearColor(0.0f, 1.0f, 0.0f, 1.0f);

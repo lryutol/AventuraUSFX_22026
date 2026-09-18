@@ -20,7 +20,7 @@ APlataforma::APlataforma()
     }
     RootComponent = mallaPlataforma;
 
-    // Colisión Block: la pelota rebotará contra la plataforma
+    // Colisión Block
     mallaPlataforma->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     mallaPlataforma->SetCollisionResponseToAllChannels(ECR_Block);
     mallaPlataforma->SetNotifyRigidBodyCollision(true);
@@ -33,7 +33,7 @@ void APlataforma::BeginPlay()
 {
     Super::BeginPlay();
 
-    // Aplicar el color con un material dinámico (necesario para cambiar color en runtime)
+    // Aplicar color con material dinámico
     UMaterialInstanceDynamic* DynMat = mallaPlataforma->CreateDynamicMaterialInstance(0);
     if (DynMat)
     {
@@ -46,7 +46,7 @@ void APlataforma::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    // Caída: la plataforma baja hasta llegar al suelo
+    // Caída vertical hasta el suelo
     if (!bEnElSuelo)
     {
         FVector Pos = GetActorLocation();

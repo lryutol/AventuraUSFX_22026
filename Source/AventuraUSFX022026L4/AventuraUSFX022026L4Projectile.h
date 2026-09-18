@@ -30,4 +30,4 @@ public:
 
     FORCEINLINE UStaticMeshComponent* GetProjectileMesh() const { return ProjectileMesh; }
     FORCEINLINE UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
-};
+};  

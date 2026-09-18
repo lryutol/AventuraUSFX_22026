@@ -6,7 +6,6 @@
 #include "Plataforma.h"
 #include "PlataformaDestructible.generated.h"
 
-// Hereda de APlataforma. La pelota la destruye, el Pawn rebota.
 UCLASS()
 class AVENTURAUSFX022026L4_API APlataformaDestructible : public APlataforma
 {
