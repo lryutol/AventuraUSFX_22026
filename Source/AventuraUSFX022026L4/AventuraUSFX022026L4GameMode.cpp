@@ -56,22 +56,22 @@ void AAventuraUSFX022026L4GameMode::ConstruirEscenario()
     // Suelo 3000 x 2000 centrado en el origen
     SpawnearPared(FVector(0.f, 0.f, 0.f), FVector(30.f, 20.f, 0.5f), FLinearColor(0.3f, 0.3f, 0.3f));
 
-    // ==================== PAREDES EXTERNAS (altas: 1000 unidades) ====================
+    // ==================== PAREDES EXTERNAS (400 unidades de alto) ====================
     // Pared derecha (X = +1500)
-    SpawnearPared(FVector(1500.f, 0.f, 500.f), FVector(0.5f, 20.f, 10.f), FLinearColor(0.5f, 0.5f, 0.5f));
+    SpawnearPared(FVector(1500.f, 0.f, 200.f), FVector(0.5f, 20.f, 4.f), FLinearColor(0.5f, 0.5f, 0.5f));
     // Pared izquierda (X = -1500)
-    SpawnearPared(FVector(-1500.f, 0.f, 500.f), FVector(0.5f, 20.f, 10.f), FLinearColor(0.5f, 0.5f, 0.5f));
+    SpawnearPared(FVector(-1500.f, 0.f, 200.f), FVector(0.5f, 20.f, 4.f), FLinearColor(0.5f, 0.5f, 0.5f));
     // Pared frontal (Y = +1000)
-    SpawnearPared(FVector(0.f, 1000.f, 500.f), FVector(30.f, 0.5f, 10.f), FLinearColor(0.5f, 0.5f, 0.5f));
+    SpawnearPared(FVector(0.f, 1000.f, 200.f), FVector(30.f, 0.5f, 4.f), FLinearColor(0.5f, 0.5f, 0.5f));
     // Pared trasera (Y = -1000)
-    SpawnearPared(FVector(0.f, -1000.f, 500.f), FVector(30.f, 0.5f, 10.f), FLinearColor(0.5f, 0.5f, 0.5f));
+    SpawnearPared(FVector(0.f, -1000.f, 200.f), FVector(30.f, 0.5f, 4.f), FLinearColor(0.5f, 0.5f, 0.5f));
 
-    // ⚠️ SIN TECHO — la cámara queda libre.
-
-    // ==================== 2 MUROS INTERNOS ====================
-    // Dividen el escenario en 3 secciones iguales a lo largo del eje Y
-    SpawnearPared(FVector(0.f, -333.f, 500.f), FVector(30.f, 0.5f, 10.f), FLinearColor(0.9f, 0.9f, 0.2f));
-    SpawnearPared(FVector(0.f, 333.f, 500.f), FVector(30.f, 0.5f, 10.f), FLinearColor(0.9f, 0.9f, 0.2f));
+    // ==================== 2 MUROS INTERNOS VERTICALES (eje Y) ====================
+    // Van a lo largo del eje Y, dividen el escenario en 3 secciones (izq, centro, der)
+    // Son más cortos que los muros izquierdo/derecho: solo 1200 unidades de largo (de -600 a +600)
+    // Dejan un hueco arriba y abajo para que el Pawn pase por debajo sin colisionar
+    SpawnearPared(FVector(-500.f, 0.f, 200.f), FVector(0.5f, 12.f, 4.f), FLinearColor(0.9f, 0.9f, 0.2f));
+    SpawnearPared(FVector(500.f, 0.f, 200.f), FVector(0.5f, 12.f, 4.f), FLinearColor(0.9f, 0.9f, 0.2f));
 }
 
 void AAventuraUSFX022026L4GameMode::SpawnearPared(FVector Posicion, FVector Escala, FLinearColor Color)
@@ -155,19 +155,19 @@ void AAventuraUSFX022026L4GameMode::SpawnearPlataformaAleatoria()
     FActorSpawnParameters Params;
     Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-    // Elegir una de las 3 secciones
+    // Elegir una de las 3 secciones (izquierda, centro, derecha)
     int32 Seccion = FMath::RandRange(0, 2);
 
-    float PosY = 0.0f;
+    float PosX = 0.0f;
     switch (Seccion)
     {
-    case 0: PosY = FMath::FRandRange(-950.f, -400.f); break;  // Inferior
-    case 1: PosY = FMath::FRandRange(-300.f, 300.f);   break;  // Central
-    case 2: PosY = FMath::FRandRange(400.f, 950.f);    break;  // Superior
+    case 0: PosX = FMath::FRandRange(-1400.f, -600.f); break;  // Sección izquierda
+    case 1: PosX = FMath::FRandRange(-400.f, 400.f);   break;  // Sección central
+    case 2: PosX = FMath::FRandRange(600.f, 1400.f);   break;  // Sección derecha
     }
 
-    // X aleatorio en todo el ancho
-    float PosX = FMath::FRandRange(-1400.f, 1400.f);
+    // Y aleatorio en todo el alto
+    float PosY = FMath::FRandRange(-900.f, 900.f);
 
     // Z: parte superior del escenario
     float PosZ = 450.0f;

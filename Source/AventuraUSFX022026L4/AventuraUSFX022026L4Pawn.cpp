@@ -36,13 +36,14 @@ AAventuraUSFX022026L4Pawn::AAventuraUSFX022026L4Pawn()
     ShipMeshComponent->OnComponentHit.AddDynamic(this, &AAventuraUSFX022026L4Pawn::OnHit);
 
     // ==================== CÁMARA ====================
-    // Pitch = -85 (mirando casi vertical hacia abajo)
+    // Pitch = -89 (mirando casi vertical hacia abajo)
     // Yaw = 90 (mirando hacia +Y, así el eje X aparece como izq/der en pantalla)
+    // Brazo largo para ver todo el escenario
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true);
-    CameraBoom->TargetArmLength = 2600.f;
-    CameraBoom->SetRelativeRotation(FRotator(-85.f, 90.f, 0.f));
+    CameraBoom->TargetArmLength = 3500.f;
+    CameraBoom->SetRelativeRotation(FRotator(-89.f, 90.f, 0.f));
     CameraBoom->bDoCollisionTest = false;
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
