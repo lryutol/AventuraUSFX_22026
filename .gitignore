@@ -1,0 +1,60 @@
+# --- Unreal Engine ---
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# --- Archivos generados por el motor ---
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+
+# --- Visual Studio 2022 ---
+.vs/
+*.user
+*.aps
+*.pch
+*.ipch
+*.ilk
+*.exp
+*.idb
+*.pdb
+*.obj
+
+# --- Compilados ---
+*.o
+*.lo
+*.slo
+*.la
+*.lai
+*.so
+*.dylib
+*.dll
+*.lib
+*.a
+*.exe
+*.out
+*.app
+*.ipa
+
+# --- Precompilados ---
+*.gch
+*.pch
+
+# --- Datos compilados de mapas ---
+*_BuiltData.uasset
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDEs alternativos ---
+.idea/
+.vscode/
