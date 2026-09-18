@@ -36,9 +36,6 @@ AAventuraUSFX022026L4Pawn::AAventuraUSFX022026L4Pawn()
     ShipMeshComponent->OnComponentHit.AddDynamic(this, &AAventuraUSFX022026L4Pawn::OnHit);
 
     // ==================== CÁMARA ====================
-    // Pitch = -89 (mirando casi vertical hacia abajo)
-    // Yaw = 90 (mirando hacia +Y, así el eje X aparece como izq/der en pantalla)
-    // Brazo largo para ver todo el escenario
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->SetUsingAbsoluteRotation(true);
@@ -101,7 +98,9 @@ void AAventuraUSFX022026L4Pawn::FireShot()
 
     FVector SpawnLocation = GetActorLocation() + FVector(0.f, 0.f, 150.f);
 
-    // Dirección horizontal con yaw aleatorio
+    // Disparo horizontal con yaw aleatorio
+    // Pitch = 0 → sale recto (horizontal)
+    // La gravedad del Projectile se encargará de hacerlo caer y rebotar
     float RandomYaw = FMath::FRandRange(0.0f, 360.0f);
     FRotator SpawnRotation = FRotator(0.f, RandomYaw, 0.f);
 

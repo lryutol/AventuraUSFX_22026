@@ -26,16 +26,16 @@ AAventuraUSFX022026L4Projectile::AAventuraUSFX022026L4Projectile()
 
     ProjectileMesh->OnComponentHit.AddDynamic(this, &AAventuraUSFX022026L4Projectile::OnHit);
 
-    // ProjectileMovement: rebote indefinido sin gravedad ni fricción
+    // ==================== ProjectileMovement ====================
     ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement0"));
     ProjectileMovement->UpdatedComponent = ProjectileMesh;
     ProjectileMovement->InitialSpeed = 1400.f;
     ProjectileMovement->MaxSpeed = 1400.f;
     ProjectileMovement->bRotationFollowsVelocity = true;
     ProjectileMovement->bShouldBounce = true;
-    ProjectileMovement->Bounciness = 1.0f;
-    ProjectileMovement->Friction = 0.0f;
-    ProjectileMovement->ProjectileGravityScale = 0.0f;
+    ProjectileMovement->Bounciness = 1.0f;                 // Rebote perfecto
+    ProjectileMovement->Friction = 0.0f;                   // Sin fricción
+    ProjectileMovement->ProjectileGravityScale = 1.0f;     // Gravedad normal: cae y rebota
 
     InitialLifeSpan = 0.0f;
 }

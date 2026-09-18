@@ -17,7 +17,7 @@ APlataformaDestructible::APlataformaDestructible()
     }
 
     // Misma escala que la Indestructible
-    mallaPlataforma->SetRelativeScale3D(FVector(9.0f, 2.5f, 0.4f));
+    mallaPlataforma->SetRelativeScale3D(FVector(4.0f, 1.5f, 1.0f));
 
     // Color ROJO
     ColorPlataforma = FLinearColor(1.0f, 0.0f, 0.0f, 1.0f);
